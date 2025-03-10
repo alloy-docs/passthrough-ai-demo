@@ -76,7 +76,7 @@ export default function Home() {
           <div className="mb-8 text-center text-gray-300">
             <p className="mb-2 text-sm">
               This Support Agent chatbot showcases the power of Alloy
-              Automation's Passthrough APIs to build AI agents quickly.{" "}
+              {"Automation's"} Passthrough APIs to build AI agents quickly.{" "}
             </p>
 
             <p className="text-sm">
@@ -85,7 +85,7 @@ export default function Home() {
                 href="https://runalloy.com"
                 className="underline text-green-400 hover:text-green-300"
               >
-                Alloy's
+                Alloy{"'"}s
               </Link>{" "}
               Passthrough APIs by visiting the{" "}
               <Link
@@ -198,6 +198,7 @@ export default function Home() {
               placeholder="Send a message..."
               value={input}
               onChange={handleInputChange}
+              required
             />
             <Button
               size="icon"

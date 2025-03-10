@@ -7,7 +7,7 @@ import { useEffect, useRef } from "react";
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
 import { ChatMessage } from "./ui/chat-message";
-import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
+import { Card, CardFooter, CardHeader } from "./ui/card";
 
 export function Chat() {
   const { messages, input, handleInputChange, handleSubmit, isLoading, error } =
