@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useChat } from "@ai-sdk/react";
 import ReactMarkdown from "react-markdown"; // Import react-markdown
 import remarkGfm from "remark-gfm";
-import TALKDESK_LOGO from "../lib/TALKDESK_LOGO.svg";
+import SHOPIFY_LOGO from "../lib/SHOPIFY_LOGO.svg";
 import ALLOY_LOGO from "../lib/ALLOY_LOGO.svg";
 import Image from "next/image";
 import { useState, useCallback } from "react";
@@ -55,8 +55,6 @@ export default function Home() {
     setInput(query);
   };
 
-  // ... rest of the component remains the same
-
   return (
     <div className="flex min-h-screen flex-col bg-black text-white">
       {/* Main Content */}
@@ -64,7 +62,7 @@ export default function Home() {
         <div className="container mx-auto flex max-w-3xl flex-col items-center justify-center px-4 py-16">
           <div className="mb-6 flex justify-center items-center text-green-500">
             <div>
-              <Image src={TALKDESK_LOGO || "/placeholder.svg"} alt="logo" />
+              <Image src={SHOPIFY_LOGO || "/placeholder.svg"} alt="logo" />
             </div>
 
             <span className="mx-3 text-2xl font-bold">+</span>

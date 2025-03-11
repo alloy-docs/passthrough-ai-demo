@@ -25,7 +25,7 @@
 // async function connectMongo() {
 //   const client = new MongoClient(MONGODB_URI);
 //   try {
-//     await client.connect();
+//     await client.connect();r
 //     return client.db("syncDb");
 //   } catch (err) {
 //     console.error("MongoDB connection error:", err);
