@@ -1,16 +1,12 @@
 "use client";
 
-import type { Message } from "ai";
+import { Message } from "ai";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import { MemoizedReactMarkdown } from "../markdown";
 import { CodeBlock } from "./codeblock";
 
-interface ChatMessageProps {
-  message: Message;
-}
-
-export function ChatMessage({ message }: ChatMessageProps) {
+export function ChatMessage({ message }) {
   return (
     <div className="flex-1 space-y-2 overflow-hidden">
       <MemoizedReactMarkdown
@@ -20,7 +16,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
           p({ children }) {
             return <p className="mb-2 last:mb-0">{children}</p>;
           },
-          code({ node, inline, className, children, ...props }) {
+          code({ inline, className, children, ...props }) {
             if (children && !Array.isArray(children) && "type" in children) {
               return children;
             }

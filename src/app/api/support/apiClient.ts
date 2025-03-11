@@ -1,9 +1,37 @@
 // import cron from "node-cron";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 const BASE_URL = "https://production.runalloy.com/2024-03/passthrough";
 const ALLOY_API_KEY = process.env.NEXT_PUBLIC_ALLOY_API_KEY;
 const SHOPIFY_CREDENTIAL_ID = process.env.NEXT_PUBLIC_SHOPIFY_CREDENTIAL_ID;
+
+interface ProductVariant {
+  price: number;
+  inventory_quantity: number;
+}
+
+interface Product {
+  title: string;
+  variants: ProductVariant[];
+}
+
+interface OrderLineItem {
+  title: string;
+  quantity: number;
+  price: number;
+}
+
+interface Order {
+  id: number;
+  order_number: string;
+  total_price: number;
+  financial_status: string;
+  fulfillment_status: string | null;
+  created_at: string;
+  line_items: OrderLineItem[];
+  customer_id: number | null;
+  customer?: { id: string };
+}
 
 // Fetch functions using Alloy Passthrough API
 async function fetchProductsFromShopify() {
@@ -29,21 +57,27 @@ async function fetchProductsFromShopify() {
     }
     // Simplify the product data to reduce tokens
     const simplifiedProducts = (response.data.products || []).map(
-      (product: any) => ({
+      (product: Product) => ({
         title: product.title,
-        variants: product.variants.slice(0, 1).map((variant: any) => ({
-          price: variant.price,
-          inventory_quantity: variant.inventory_quantity,
-        })),
+        variants: product.variants
+          .slice(0, 1)
+          .map((variant: ProductVariant) => ({
+            price: variant.price,
+            inventory_quantity: variant.inventory_quantity,
+          })),
       })
     );
-    console.log("Shopify response (simplified products):", simplifiedProducts);
+
     return simplifiedProducts; // Return simplified array of up to 20 products
   } catch (error) {
-    console.error(
-      "Shopify Passthrough API error:",
-      error.response?.data || error.message
-    );
+    if (error instanceof AxiosError) {
+      console.error(
+        "Shopify Passthrough API error:",
+        error.response?.data || error.message
+      );
+    } else {
+      console.error("Unexpected error:", error);
+    }
     return null;
   }
 }
@@ -75,38 +109,43 @@ async function fetchOrdersFromShopify(customerId: string) {
       return null;
     }
     // Simplify order data to reduce tokens, matching the API response structure
-    const simplifiedOrders = (response.data.orders || []).map((order: any) => ({
-      id: order.id,
-      order_number: order.order_number,
-      total_price: order.total_price,
-      financial_status: order.financial_status,
-      fulfillment_status: order.fulfillment_status || "Not Fulfilled", // Default if null
-      created_at: order.created_at,
-      line_items: order.line_items.map((item: any) => ({
-        title: item.title,
-        quantity: item.quantity,
-        price: item.price,
-      })),
-      customer_id: order.customer ? order.customer.id : null,
-    }));
-    console.log("Shopify response (simplified orders):", simplifiedOrders);
+    const simplifiedOrders = (response.data.orders || []).map(
+      (order: Order) => ({
+        id: order.id,
+        order_number: order.order_number,
+        total_price: order.total_price,
+        financial_status: order.financial_status,
+        fulfillment_status: order.fulfillment_status || "Not Fulfilled", // Default if null
+        created_at: order.created_at,
+        line_items: order.line_items.map((item: OrderLineItem) => ({
+          title: item.title,
+          quantity: item.quantity,
+          price: item.price,
+        })),
+        customer_id: order.customer ? order.customer.id : null,
+      })
+    );
+
     return simplifiedOrders;
   } catch (error) {
-    console.error(
-      "Shopify Passthrough API error for orders:",
-      error.response?.data || error.message
-    );
+    if (error instanceof AxiosError) {
+      console.error(
+        "Shopify Passthrough API error for orders:",
+        error.response?.data || error.message
+      );
+    } else {
+      console.error("Unexpected error:", error);
+    }
     return null;
   }
 }
 
 async function callSupportAgent(message: string) {
   try {
-    console.log({ message });
     const response = await axios.post("/api/support", {
       messages: [{ role: "user", content: message }],
     });
-    console.log(response.data);
+
     return response.data; //
   } catch (error) {
     // Handle error appropriately
