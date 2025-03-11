@@ -1,6 +1,4 @@
 "use client";
-
-import { Message } from "ai";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import { MemoizedReactMarkdown } from "../markdown";
