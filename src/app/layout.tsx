@@ -12,8 +12,8 @@ const jetbrains = JetBrains_Mono({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "SupportAgent",
   description:
-    "A Support AI Agent for a Shopify store using Alloy's Passthroguh APIs",
-  metadataBase: new URL("https://runalloy.com"), // Replace with your actual domain
+    "A Support AI Agent for a Shopify store using Alloy's Passthrough APIs",
+  metadataBase: new URL("https://runalloy.com"),
   openGraph: {
     title: "SupportAgent",
     description:
