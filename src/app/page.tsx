@@ -55,8 +55,6 @@ export default function Home() {
     setInput(query);
   };
 
-  // ... rest of the component remains the same
-
   return (
     <div className="flex min-h-screen flex-col bg-black text-white">
       {/* Main Content */}
