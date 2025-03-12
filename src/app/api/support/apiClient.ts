@@ -1,4 +1,3 @@
-// import cron from "node-cron";
 import axios, { AxiosError } from "axios";
 
 const BASE_URL = "https://production.runalloy.com/2024-03/passthrough";
@@ -153,12 +152,5 @@ async function callSupportAgent(message: string) {
     throw new Error("Failed to call support endpoint");
   }
 }
-
-// Scheduled task for daily reconciliation at 5:00 PM PST
-// cron.schedule("0 17 * * *", async () => {
-//   console.log("Running scheduled reconciliation at close of business");
-//   const res = await fetch("http://localhost:3000/api/sync", { method: "GET" });
-//   console.log(await res.json());
-// });
 
 export { fetchProductsFromShopify, fetchOrdersFromShopify, callSupportAgent };
